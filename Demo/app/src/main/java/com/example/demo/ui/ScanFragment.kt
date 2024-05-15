@@ -37,15 +37,34 @@ class ScanFragment : Fragment() {
 
     private fun scanQR() {
         // TODO(3): Launch embedded activity to scan QR
-
+        val options = ScanOptions()
+            .setDesiredBarcodeFormats(ScanOptions.QR_CODE)
+            .setPrompt("Scan QR Code\n")
+            .setBeepEnabled(true)
+        getResult.launch(options)
     }
 
     // TODO(4): Handle scan QR result
-    private val getResult = 0
+    private val getResult = registerForActivityResult(ScanContract()) {
+        if (it.contents == null) {
+            binding.txtContent.text = ""
+        } else {
+            binding.txtContent.text = it.contents
+            // TODO
+            detail(it.contents)
+        }
+    }
 
     private fun detail(productId: String) {
         // TODO(5): Navigate to product detail if it is a valid product id
-
+        lifecycleScope.launch{
+            val p = vm.get(productId)
+            if (p != null){
+                nav.navigate(R.id.productDetailFragment, bundleOf(
+                    "productId" to productId
+                ))
+            }
+        }
     }
 
 }

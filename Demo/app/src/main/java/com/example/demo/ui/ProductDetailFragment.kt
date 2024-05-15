@@ -51,7 +51,8 @@ class ProductDetailFragment : Fragment() {
 
     private fun generateQR(content: String) {
         // TODO(2): Generate QR and display it in an ImageView
-
+        val bitmap = BarcodeEncoder().encodeBitmap(content, BarcodeFormat.QR_CODE, 400, 400)
+        binding.imgQR.setImageBitmap(bitmap)
     }
 
 }

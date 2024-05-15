@@ -52,7 +52,17 @@ class EmailFragment : Fragment() {
         """.trimIndent();
 
         // TODO(1): Send email
-
+        SimpleEmail()
+            .to(email)
+            .subject(subject)
+            .content(content)
+            .isHtml()
+            .send{
+                snackbar("Email sent.")
+                binding.btnSend.isEnabled = true
+                binding.edtEmail.text.clear()
+                binding.edtEmail.requestFocus()
+            }
 
         snackbar("Sending email...")
         binding.btnSend.isEnabled = false
